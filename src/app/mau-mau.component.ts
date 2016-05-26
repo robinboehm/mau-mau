@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {CardComponent} from "./card/card.component";
 import {HandOfCardsComponent} from "./hand-of-cards/hand-of-cards.component";
+import {DeckComponent} from "./deck/deck.component";
+
 
 
 @Component({
@@ -8,7 +10,7 @@ import {HandOfCardsComponent} from "./hand-of-cards/hand-of-cards.component";
   selector: 'mau-mau-app',
   templateUrl: 'mau-mau.component.html',
   styleUrls: ['mau-mau.component.css'],
-  directives: [CardComponent,HandOfCardsComponent]
+  directives: [CardComponent,HandOfCardsComponent,DeckComponent]
 })
 export class MauMauAppComponent {
   currentDeck;
@@ -50,4 +52,8 @@ export class MauMauAppComponent {
   }
 
 
+  drawCard(){
+    this.player2Cards.push(this.currentDeck.pop());
+
+  }
 }
