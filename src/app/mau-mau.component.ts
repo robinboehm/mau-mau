@@ -61,6 +61,12 @@ export class MauMauAppComponent {
     destination.push(this.currentDeck.pop());
 
   }
+
+  discardCard($event){
+    let card = $event;
+    this.pile.push(card);
+    this.player2Cards = this.player2Cards.filter((element) => element != card);
+  }
 }
 
 

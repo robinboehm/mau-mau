@@ -1,3 +1,5 @@
+<p>Pile {{cards.length}}</p>
+
 <div *ngIf="cards.length>0">
   <card [suit]="getTopCard().suit" [rank]="getTopCard().rank"> </card>
 </div>

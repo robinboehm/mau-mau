@@ -15,6 +15,6 @@
 <hr>
 
 <p>Player's cards</p>
-<hand-of-cards [playerCards]="player2Cards" [cardsVisible]="true">
+<hand-of-cards (discard)="discardCard($event)" [playerCards]="player2Cards" [cardsVisible]="true">
 
 </hand-of-cards>
