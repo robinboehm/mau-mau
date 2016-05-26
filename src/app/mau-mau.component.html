@@ -1,0 +1,15 @@
+<hand-of-cards [playerCards]="player1Cards" [cardsVisible]="false">
+
+</hand-of-cards>
+
+
+<hr>
+
+
+<card [suit]="card.suit" [rank]="card.rank" *ngFor="let card of currentDeck"></card>
+
+<hr>
+
+<hand-of-cards [playerCards]="player2Cards" [cardsVisible]="true">
+
+</hand-of-cards>
