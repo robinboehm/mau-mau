@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {CardComponent} from "./card/card.component";
 import {HandOfCardsComponent} from "./hand-of-cards/hand-of-cards.component";
 import {DeckComponent} from "./deck/deck.component";
+import {PileComponent} from "./pile/pile.component";
 
 
 
@@ -10,17 +11,21 @@ import {DeckComponent} from "./deck/deck.component";
   selector: 'mau-mau-app',
   templateUrl: 'mau-mau.component.html',
   styleUrls: ['mau-mau.component.css'],
-  directives: [CardComponent,HandOfCardsComponent,DeckComponent]
+  directives: [CardComponent,HandOfCardsComponent,DeckComponent,PileComponent]
 })
 export class MauMauAppComponent {
   currentDeck;
+  pile;
   player1Cards;
   player2Cards;
 
+
   constructor(){
     this.currentDeck=this.generateCardDeck();
+    this.pile=[];
     this.player1Cards=this.getPlayersCards(7);
     this.player2Cards=this.getPlayersCards(7);
+    this.drawCard(this.pile)
   }
 
   generateCardDeck() {
@@ -52,8 +57,10 @@ export class MauMauAppComponent {
   }
 
 
-  drawCard(){
-    this.player2Cards.push(this.currentDeck.pop());
+  drawCard(destination){
+    destination.push(this.currentDeck.pop());
 
   }
 }
+
+

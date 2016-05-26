@@ -6,9 +6,14 @@
 
 <hr>
 
-<deck [cards]= "currentDeck" (click)="drawCard()"> </deck>
+<deck [cards]= "currentDeck" (click)="drawCard(player2Cards)"> </deck>
+
+<pile [cards]="pile">
+
+</pile>
 
 <hr>
+
 <p>Player's cards</p>
 <hand-of-cards [playerCards]="player2Cards" [cardsVisible]="true">
 

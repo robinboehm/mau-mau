@@ -32,6 +32,7 @@ const barrels: string[] = [
   'app/card',
   'app/hand-of-cards',
   'app/deck',
+  'app/pile',
   /** @cli-barrel */
 ];
 
