@@ -21,7 +21,7 @@ export class MauMauAppComponent {
 
 
   constructor(){
-    this.currentDeck=this.generateCardDeck();
+    this.currentDeck= this.shuffle(this.generateCardDeck());
     this.pile=[];
     this.player1Cards=this.getPlayersCards(7);
     this.player2Cards=this.getPlayersCards(7);
@@ -47,7 +47,6 @@ export class MauMauAppComponent {
 
   getPlayersCards(numberOfCards){
     let playersCards = [];
-    let cardDeck = this.currentDeck;
 
     for(let i=0; i<numberOfCards;i++){
       playersCards.push(this.currentDeck.pop())
@@ -66,6 +65,26 @@ export class MauMauAppComponent {
     let card = $event;
     this.pile.push(card);
     this.player2Cards = this.player2Cards.filter((element) => element != card);
+  }
+
+  shuffle(arr){
+      if (!Array.isArray(arr)) {
+        throw new TypeError('Expected an array');
+      }
+
+      var rand;
+      var tmp;
+      var len = arr.length;
+      var ret = arr.slice();
+
+      while (len) {
+        rand = Math.floor(Math.random() * len--);
+        tmp = ret[len];
+        ret[len] = ret[rand];
+        ret[rand] = tmp;
+      }
+
+      return ret;
   }
 }
 
