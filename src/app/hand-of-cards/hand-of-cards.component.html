@@ -4,5 +4,9 @@
 
 <div *ngIf="!cardsVisible">
   <img *ngFor="let card of playerCards" [src]="'./card-back-side.jpg'">
+  <div>
+    <button (click)="sendComputerDraw()">Karte ziehen</button>
+    <button (click)="sendComputerDiscard()">Karte legen</button>
+  </div>
 </div>
 

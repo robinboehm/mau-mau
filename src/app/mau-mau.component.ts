@@ -86,6 +86,12 @@ export class MauMauAppComponent {
 
       return ret;
   }
+
+
+  computerDiscard(){
+    let card = this.player1Cards.pop();
+    this.pile.push(card);
+  }
 }
 
 

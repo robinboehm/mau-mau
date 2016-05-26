@@ -1,6 +1,8 @@
 <p>Computer's cards</p>
 <hand-of-cards
-  [playerCards]="player1Cards" [cardsVisible]="true">
+  (computerDiscard)="computerDiscard()"
+  (computerDraw)="drawCard(player1Cards)"
+  [playerCards]="player1Cards" [cardsVisible]="false">
 </hand-of-cards>
 
 

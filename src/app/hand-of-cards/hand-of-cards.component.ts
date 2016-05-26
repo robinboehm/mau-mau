@@ -13,6 +13,8 @@ export class HandOfCardsComponent implements OnInit {
   @Input() playerCards= [];
   @Input() cardsVisible= false ;
   @Output() discard = new EventEmitter();
+  @Output() computerDiscard = new EventEmitter();
+  @Output() computerDraw = new EventEmitter();
 
   constructor() {}
 
@@ -21,6 +23,14 @@ export class HandOfCardsComponent implements OnInit {
 
   sendDiscardEvent(card){
     this.discard.emit(card);
+  }
+
+  sendComputerDiscard(){
+    this.computerDiscard.emit('');
+  }
+
+  sendComputerDraw(){
+    this.computerDraw.emit('');
   }
 
 }
