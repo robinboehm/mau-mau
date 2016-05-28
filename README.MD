@@ -4,7 +4,7 @@ Install [NodeJS](https://nodejs.org/en/) Latest
 
 After that:
 
-    npm install angular-cli@1.0.0-beta.5
+    npm install -g angular-cli@1.0.0-beta.5
 
 
 # How to run
