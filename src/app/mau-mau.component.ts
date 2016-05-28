@@ -68,9 +68,17 @@ export class MauMauAppComponent {
     if(this.isCardValid(card)){
       this.pile.push(card);
       this.player2Cards = this.player2Cards.filter((element) => element != card);
-      if(card.rank !== '8'){
+      if(card.rank === '8'){
+        this.myTurn=true;
+      } else if(card.rank === '7'){
+        this.player1Cards.push(this.currentDeck.pop())
+        this.player1Cards.push(this.currentDeck.pop())
+        this.myTurn=true;
+      }
+      else{
         this.myTurn=false;
       }
+
 
     }
 
