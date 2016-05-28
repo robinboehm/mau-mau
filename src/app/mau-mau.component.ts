@@ -99,8 +99,11 @@ export class MauMauAppComponent {
     let topCard = this.pile[this.pile.length-1];
     let isSameSuit = (card.suit === topCard.suit);
     let isSameRank = (card.rank === topCard.rank);
-    return isSameSuit || isSameRank;
+    let isCardJack = card.rank === 'J';
+    return isSameSuit || isSameRank || isCardJack; 
   }
+
+
 
 }
 
