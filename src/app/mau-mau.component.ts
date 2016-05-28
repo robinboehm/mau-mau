@@ -18,6 +18,7 @@ export class MauMauAppComponent {
   pile;
   player1Cards;
   player2Cards;
+  myTurn;
 
 
   constructor(){
@@ -25,7 +26,8 @@ export class MauMauAppComponent {
     this.pile=[];
     this.player1Cards=this.getPlayersCards(7);
     this.player2Cards=this.getPlayersCards(7);
-    this.drawCard(this.pile)
+    this.drawCard(this.pile);
+    this.myTurn=true;
   }
 
   generateCardDeck() {
@@ -58,7 +60,7 @@ export class MauMauAppComponent {
 
   drawCard(destination){
     destination.push(this.currentDeck.pop());
-
+    this.myTurn=!this.myTurn
   }
 
   discardCard($event){
@@ -66,6 +68,7 @@ export class MauMauAppComponent {
     if(this.isCardValid(card)){
       this.pile.push(card);
       this.player2Cards = this.player2Cards.filter((element) => element != card);
+      this.myTurn=false;
     }
   }
 
@@ -93,6 +96,7 @@ export class MauMauAppComponent {
   computerDiscard(){
     let card = this.player1Cards.pop();
     this.pile.push(card);
+    this.myTurn=true;
   }
 
   isCardValid(card){
@@ -100,8 +104,9 @@ export class MauMauAppComponent {
     let isSameSuit = (card.suit === topCard.suit);
     let isSameRank = (card.rank === topCard.rank);
     let isCardJack = card.rank === 'J';
-    return isSameSuit || isSameRank || isCardJack; 
+    return (isSameSuit || isSameRank || isCardJack) && this.myTurn;
   }
+
 
 
 
