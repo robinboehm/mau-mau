@@ -12,9 +12,11 @@ export class HandOfCardsComponent implements OnInit {
 
   @Input() playerCards= [];
   @Input() cardsVisible= false ;
+  @Input() myTurn;
   @Output() discard = new EventEmitter();
   @Output() computerDiscard = new EventEmitter();
   @Output() computerDraw = new EventEmitter();
+
 
   constructor() {}
 
@@ -31,6 +33,14 @@ export class HandOfCardsComponent implements OnInit {
 
   sendComputerDraw(){
     this.computerDraw.emit('');
+  }
+
+  getCurrentBackgroundColor(){
+    if (this.myTurn){
+      return 'red'
+    } else {
+      return 'white'
+    }
   }
 
 }

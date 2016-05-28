@@ -1,22 +1,25 @@
+
 <p>Computer's cards</p>
 <hand-of-cards
   (computerDiscard)="computerDiscard()"
   (computerDraw)="drawCard(player1Cards)"
-  [playerCards]="player1Cards" [cardsVisible]="false">
+  [playerCards]="player1Cards" [cardsVisible]="false" [myTurn]="!myTurn">
 </hand-of-cards>
 
 
 <hr>
 
-<deck [cards]= "currentDeck" (click)="drawCard(player2Cards)"> </deck>
+<div class="row">
+  <div class="col-xs-4"> <deck [cards]= "currentDeck" (click)="drawCard(player2Cards)"> </deck>
+  </div>
+  <div class="col-xs-4"> <pile [cards]="pile"> </pile> </div>
+  <div class="col-xs-4"></div>
+</div>
 
-<pile [cards]="pile">
-
-</pile>
 
 <hr>
 
 <p>Player's cards</p>
-<hand-of-cards (discard)="discardCard($event)" [playerCards]="player2Cards" [cardsVisible]="true">
+<hand-of-cards (discard)="discardCard($event)" [playerCards]="player2Cards" [cardsVisible]="true" [myTurn]="myTurn">
 
 </hand-of-cards>

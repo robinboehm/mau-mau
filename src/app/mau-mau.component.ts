@@ -68,8 +68,12 @@ export class MauMauAppComponent {
     if(this.isCardValid(card)){
       this.pile.push(card);
       this.player2Cards = this.player2Cards.filter((element) => element != card);
-      this.myTurn=false;
+      if(card.rank !== '8'){
+        this.myTurn=false;
+      }
+
     }
+
   }
 
   shuffle(arr){
