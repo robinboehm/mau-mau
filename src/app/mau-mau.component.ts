@@ -63,8 +63,10 @@ export class MauMauAppComponent {
 
   discardCard($event){
     let card = $event;
-    this.pile.push(card);
-    this.player2Cards = this.player2Cards.filter((element) => element != card);
+    if(this.isCardValid(card)){
+      this.pile.push(card);
+      this.player2Cards = this.player2Cards.filter((element) => element != card);
+    }
   }
 
   shuffle(arr){
@@ -92,6 +94,14 @@ export class MauMauAppComponent {
     let card = this.player1Cards.pop();
     this.pile.push(card);
   }
+
+  isCardValid(card){
+    let topCard = this.pile[this.pile.length-1];
+    let isSameSuit = (card.suit === topCard.suit);
+    let isSameRank = (card.rank === topCard.rank);
+    return isSameSuit || isSameRank;
+  }
+
 }
 
 
