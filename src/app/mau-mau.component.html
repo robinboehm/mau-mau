@@ -20,6 +20,6 @@
 <hr>
 
 <p>Player's cards</p>
-<hand-of-cards (discard)="discardCard($event)" [playerCards]="playerCards" [cardsVisible]="true" [myTurn]="myTurn">
+<hand-of-cards (discard)="playerCards = discardCard($event,playerCards,computerCards)" [playerCards]="playerCards" [cardsVisible]="true" [myTurn]="myTurn">
 
 </hand-of-cards>

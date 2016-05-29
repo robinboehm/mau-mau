@@ -58,53 +58,6 @@ export class MauMauAppComponent {
 
   }
 
-
-  drawCard(destination) {
-    destination.push(this.currentDeck.pop());
-    this.myTurn = !this.myTurn
-  }
-
-  discardCard($event) {
-    let card = $event;
-
-    if (this.isCardValid(card)) { // Ist die aktuelle Karte legbar?
-      this.pile.push(card); // Leg die Karte auf dem Pile
-
-      // Nimm die Karte aus meiner Hand
-      this.playerCards = this.playerCards.filter((element) => element != card);
-
-      if (card.rank === '8') { // Wenn wir ne 8 gelegt haben
-        // sind wir wieder dran
-        this.myTurn = true;
-      } else if (card.rank === '7') { // außer die Karte ist eine 7
-        this.cardsToDraw += 2; //wird Zieh-Counter um 2 erhöht
-        // wenn Gegner auch eine 7 hat
-        if (this.containsSeven(this.computerCards)) {
-
-        } else {
-          // wenn Gegner keine 7 hat, dann muss Gegner Karten ziehen
-          for (let i = 0; i < this.cardsToDraw; i++) {
-            this.computerCards.push(this.currentDeck.pop())
-          }
-          // Zieh-Counter wird wieder auf 0 gesetzt
-          this.cardsToDraw = 0;
-          // und wir sind wieder dran
-          this.myTurn = true;
-
-        }
-
-
-      }
-      else {
-        // In allen anderen Fällen ist der andere normal dran
-        this.myTurn = false;
-      }
-
-
-    }
-
-  }
-
   shuffle(arr) {
     if (!Array.isArray(arr)) {
       throw new TypeError('Expected an array');
@@ -126,10 +79,71 @@ export class MauMauAppComponent {
   }
 
 
+  drawCard(destination) {
+    destination.push(this.currentDeck.pop());
+    this.myTurn = !this.myTurn
+  }
+
+  handleDiscardEight() {
+    // wenn wir eine 8 legen, sind wir wieder dran
+    // this.myTurn = this.myTurn;
+  }
+
+  handleDiscardSeven(opponentCardDeck) {
+    // außer die Karte ist eine 7
+    this.cardsToDraw += 2; //wird Zieh-Counter um 2 erhöht
+    // wenn Gegner auch eine 7 hat
+    if (this.containsSeven(opponentCardDeck)) {
+
+    } else {
+      // wenn Gegner keine 7 hat, dann muss Gegner Karten ziehen
+      for (let i = 0; i < this.cardsToDraw; i++) {
+        opponentCardDeck.push(this.currentDeck.pop())
+      }
+      // Zieh-Counter wird wieder auf 0 gesetzt
+      this.cardsToDraw = 0;
+      // und wir sind wieder dran
+      // this.myTurn = true;
+
+    }
+  }
+
+  discardCard($event, currentPlayerCardDeck, opponentCardDeck) {
+    let card = $event;
+
+    if (this.isCardValid(card)) { // Ist die aktuelle Karte legbar?
+      this.pile.push(card); // Leg die Karte auf dem Pile
+
+      // Nimm die Karte aus meiner Hand
+      currentPlayerCardDeck = currentPlayerCardDeck.filter((element) => element != card);
+
+      if (card.rank === '8') {
+        this.handleDiscardEight();
+      } else if (card.rank === '7') {
+        this.handleDiscardSeven(opponentCardDeck);
+      }
+      else {
+        // In allen anderen Fällen ist der andere normal dran
+        this.myTurn = !this.myTurn;
+      }
+
+    }
+
+    return currentPlayerCardDeck;
+  }
+
   computerDiscard() {
-    let card = this.computerCards.pop();
-    this.pile.push(card);
-    this.myTurn = true;
+    for (let card of this.computerCards){
+      if (this.isCardValid(card)){
+        this.computerCards = this.discardCard(card,this.computerCards,this.playerCards);
+        return;
+      }
+    }
+    this.drawCard(this.computerCards);
+
+    //let card = this.computerCards.pop();
+
+    //this.discardCard(card,this.computerCards,this.playerCards);
   }
 
   isCardValid(card) {
@@ -137,7 +151,7 @@ export class MauMauAppComponent {
     let isSameSuit = (card.suit === topCard.suit);
     let isSameRank = (card.rank === topCard.rank);
     let isCardJack = card.rank === 'J';
-    return (isSameSuit || isSameRank || isCardJack) && this.myTurn;
+    return (isSameSuit || isSameRank || isCardJack);
   }
 
   containsSeven(cardDeck) {
