@@ -119,6 +119,9 @@ export class MauMauAppComponent {
     return (isSameSuit || isSameRank || isCardJack) && this.myTurn;
   }
 
+  containsSeven(cardDeck){
+    return cardDeck.some(card => card.rank === '7');
+  }
 
 
 
