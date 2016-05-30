@@ -1,0 +1,21 @@
+<div [style.backgroundColor]="getCurrentBackgroundColor()">
+
+
+
+  <div *ngIf="cardsVisible">
+    <card (click)="sendDiscardEvent(card)" [suit]="card.suit" [rank]="card.rank"
+          *ngFor="let card of playerCards"></card>
+  </div>
+
+
+  <div *ngIf="!cardsVisible">
+    <img *ngFor="let card of playerCards" [src]="'./card-back-side.jpg'">
+
+  </div>
+
+  <div>
+    <button (click)="sendComputerDraw()">Karte ziehen</button>
+    <button (click)="sendComputerDiscard()">Karte legen</button>
+  </div>
+
+</div>
