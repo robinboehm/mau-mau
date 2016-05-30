@@ -3,17 +3,17 @@
 <hand-of-cards
   (computerDiscard)="computerDiscard()"
   (computerDraw)="drawCard(computerCards)"
-  [playerCards]="computerCards" [cardsVisible]="true" [myTurn]="!myTurn">
+  [playerCards]="computerCards" [cardsVisible]="false" [myTurn]="!myTurn">
 </hand-of-cards>
 
 
 <hr>
 
 <div class="row">
-  <div class="col-xs-4"> <deck [cards]= "currentDeck" (click)="drawCard(playerCards)"> </deck>
+  <div class="col-xs-2"> <deck [cards]= "currentDeck" (click)="drawCard(playerCards)"> </deck>
   </div>
-  <div class="col-xs-4"> <pile [cards]="pile"> </pile> </div>
-  <div class="col-xs-4"></div>
+  <div class="col-xs-2"> <pile [cards]="pile"> </pile> </div>
+  <div class="col-xs-6 col-xs-offset-2" style="border: 1px solid black;height: 100px"></div>
 </div>
 
 
