@@ -36,7 +36,52 @@ describe('GameState Service', () => {
         expect(theNewCardDeck.length).toEqual(32);
       }));
 
+    it('should generate the correct cards',
+      inject([GameStateService], (service: GameStateService) => {
+        let theNewCardDeck = service.generateCardDeck();
+        expect(theNewCardDeck).toContain({rank:'7', suit:'C'});
+        expect(theNewCardDeck).toContain({rank:'8', suit:'C'});
+        expect(theNewCardDeck).toContain({rank:'9', suit:'C'});
+        expect(theNewCardDeck).toContain({rank:'10', suit:'C'});
+        expect(theNewCardDeck).toContain({rank:'J', suit:'C'});
+        expect(theNewCardDeck).toContain({rank:'Q', suit:'C'});
+        expect(theNewCardDeck).toContain({rank:'K', suit:'C'});
+        expect(theNewCardDeck).toContain({rank:'A', suit:'C'});
+
+        expect(theNewCardDeck).toContain({rank:'7', suit:'H'});
+        expect(theNewCardDeck).toContain({rank:'8', suit:'H'});
+        expect(theNewCardDeck).toContain({rank:'9', suit:'H'});
+        expect(theNewCardDeck).toContain({rank:'10', suit:'H'});
+        expect(theNewCardDeck).toContain({rank:'J', suit:'H'});
+        expect(theNewCardDeck).toContain({rank:'Q', suit:'H'});
+        expect(theNewCardDeck).toContain({rank:'K', suit:'H'});
+        expect(theNewCardDeck).toContain({rank:'A', suit:'H'});
+
+        expect(theNewCardDeck).toContain({rank:'7', suit:'S'});
+        expect(theNewCardDeck).toContain({rank:'8', suit:'S'});
+        expect(theNewCardDeck).toContain({rank:'9', suit:'S'});
+        expect(theNewCardDeck).toContain({rank:'10', suit:'S'});
+        expect(theNewCardDeck).toContain({rank:'J', suit:'S'});
+        expect(theNewCardDeck).toContain({rank:'Q', suit:'S'});
+        expect(theNewCardDeck).toContain({rank:'K', suit:'S'});
+        expect(theNewCardDeck).toContain({rank:'A', suit:'S'});
+
+        expect(theNewCardDeck).toContain({rank:'7', suit:'D'});
+        expect(theNewCardDeck).toContain({rank:'8', suit:'D'});
+        expect(theNewCardDeck).toContain({rank:'9', suit:'D'});
+        expect(theNewCardDeck).toContain({rank:'10', suit:'D'});
+        expect(theNewCardDeck).toContain({rank:'J', suit:'D'});
+        expect(theNewCardDeck).toContain({rank:'Q', suit:'D'});
+        expect(theNewCardDeck).toContain({rank:'K', suit:'D'});
+        expect(theNewCardDeck).toContain({rank:'A', suit:'D'});
+
+
+
+      }));
 
   });
+
+
+
 
 });
