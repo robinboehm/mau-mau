@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class GameStateService {
@@ -10,7 +10,7 @@ export class GameStateService {
   constructor() {
     this.pile = [];
     this.cardsToDraw = 0;
-    this.myTurn=true;
+    this.myTurn = true;
   }
 
   generateCardDeck() {
@@ -29,4 +29,10 @@ export class GameStateService {
     }
     return cardDeck;
   }
+
+  drawCard(source, destination) {
+    destination.push(source.pop());
+    this.myTurn = !this.myTurn;
+  }
+
 }
