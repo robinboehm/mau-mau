@@ -58,10 +58,6 @@ export class MauMauAppComponent {
   // }
   //
   //
-  // drawCard(source ,destination) {
-  //   destination.push(this.currentDeck.pop());
-  //   this.myTurn = !this.myTurn
-  // }
   //
   // handleDiscardEight() {
   //   // wenn wir eine 8 legen, sind wir wieder dran

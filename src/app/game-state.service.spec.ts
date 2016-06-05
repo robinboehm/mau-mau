@@ -113,14 +113,53 @@ describe('GameState Service', () => {
         let sampleCardDeck = [{rank: '7', suit: 'H'}, {rank: '8', suit: 'H'}];
         let sampleHandOfCards = [];
         service.myTurn = false;
-        
+
         service.drawCard(sampleCardDeck, sampleHandOfCards)
-        
+
         expect(service.myTurn).toEqual(true)
 
       }));
 
   });
 
+  describe('isCardValid method', () => {
+    it('should check return true if the card to check is the same rank as the top card of the pile',
+      inject([GameStateService], (service:GameStateService) => {
+        let sampleCard = {rank: '7', suit: 'H'};
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '7', suit: 'C'}]
+
+        let isSameRank = service.isCardValid(sampleCard, samplePile);
+
+        expect(isSameRank).toEqual(true)
+
+      }));
+
+    it('should return false check if the card to check is not the same rank as the top card of the pile',
+      inject([GameStateService], (service:GameStateService) => {
+        let sampleCard = {rank: '8', suit: 'D'};
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '7', suit: 'C'}];
+
+        let isSameRank = service.isCardValid(sampleCard, samplePile);
+
+        expect(isSameRank).toEqual(false)
+
+      }));
+
+    it('should check if the card to check is the same suit as the top card of the pile',
+      inject([GameStateService], (service:GameStateService) => {
+
+      }));
+
+    it('should check if the card to check is a Jack',
+      inject([GameStateService], (service:GameStateService) => {
+
+      }));
+
+    it('should check if the card to check is a Jack and the top card of the pile is not a Jack',
+      inject([GameStateService], (service:GameStateService) => {
+
+      }));
+
+  });
 
 });

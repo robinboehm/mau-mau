@@ -35,4 +35,10 @@ export class GameStateService {
     this.myTurn = !this.myTurn;
   }
 
+  isCardValid(card, pile) {
+    let pileTopCard = pile[pile.length - 1];
+    let isSameRank = (card.rank === pileTopCard.rank)
+    return (isSameRank);
+  }
+
 }
