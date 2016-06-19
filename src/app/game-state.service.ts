@@ -57,7 +57,13 @@ export class GameStateService {
         return cardOfHand != card
       });
 
-      this.myTurn = !this.myTurn;
+      if(card.rank == '8'){
+        // this.myTurn = this.myTurn;
+      }
+      else{
+        this.myTurn = !this.myTurn;
+      }
+
 
       return resultHandOfCards
     } else {

@@ -165,6 +165,22 @@ describe('GameState Service', () => {
 
       }));
 
+    it('should not change the current player if an 8-card is discarded',
+      inject([GameStateService], (service:GameStateService) => {
+        let sampleHandOfCards = [{rank: '9', suit: 'D'}, {rank: '8', suit: 'S'}];
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+        let sampleCard = sampleHandOfCards[1];
+
+
+        let myTurnBefore = service.myTurn;
+
+        service.discardCard(sampleCard,samplePile,sampleHandOfCards)
+
+        expect(service.myTurn).toBe(myTurnBefore)
+
+
+      }));
+
   });
 
 
