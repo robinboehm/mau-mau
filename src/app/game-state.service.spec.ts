@@ -280,8 +280,85 @@ describe('GameState Service', () => {
 
 
         }));
-      
-      
+
+
+      it('should make the opponent draw 2 cards even when opponent also has a 7',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: '7', suit: 'S'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let sampleCard = myHandOfCards[1];
+          let sampleCardDeck = service.generateCardDeck();
+
+
+          myHandOfCards = service.discardCard(sampleCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          service.takeCardsToDraw(opponentHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(1);
+          expect(opponentHandOfCards.length).toBe(4);
+          expect(samplePile.length).toBe(3);
+          expect(sampleCardDeck.length).toBe(30)
+
+
+        }));
+
+
+      it('should make me draw 4 cards even if have a second 7',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: '7', suit: 'S'},  {rank: '7', suit: 'H'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let firstSevenCard = myHandOfCards[1];
+          let secondSevenCard = myHandOfCards[2];
+          let sampleCardDeck = service.generateCardDeck();
+
+
+          myHandOfCards = service.discardCard(firstSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+
+          // myHandOfCards = service.discardCard(secondSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          service.takeCardsToDraw(myHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(6);
+          expect(opponentHandOfCards.length).toBe(1);
+          expect(samplePile.length).toBe(4);
+          expect(sampleCardDeck.length).toBe(28)
+
+
+        }));
+
+
+      it('should make the opponent draw 6 cards even when opponent has a second 7',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: '7', suit: 'S'},  {rank: '7', suit: 'H'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}, {rank: '7', suit: 'C'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let firstSevenCard = myHandOfCards[1];
+          let secondSevenCard = myHandOfCards[2];
+          let sampleCardDeck = service.generateCardDeck();
+
+
+          myHandOfCards = service.discardCard(firstSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+
+          myHandOfCards = service.discardCard(secondSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          // opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+
+          service.takeCardsToDraw(opponentHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(1);
+          expect(opponentHandOfCards.length).toBe(8);
+          expect(samplePile.length).toBe(5);
+          expect(sampleCardDeck.length).toBe(26)
+
+
+        }));
+
     });
 
 

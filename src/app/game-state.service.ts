@@ -48,6 +48,13 @@ export class GameStateService {
     return (isSameRank || isSameSuit || isJack) && !isJackOnJack;
   }
 
+
+  takeCardsToDraw(handOfCards, cardDeck){
+    for(;this.cardsToDraw>0;this.cardsToDraw--){
+      handOfCards.push(cardDeck.pop());
+    }
+  }
+
   discardCard(card, pile, handOfCards, opponentHandOfCards?, cardDeck?) {
 
     if (this.isCardValid(card, pile)) {
