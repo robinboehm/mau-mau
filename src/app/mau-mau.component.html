@@ -1,18 +1,18 @@
 
 <p>Computer's cards</p>
-<hand-of-cards
-  (computerDiscard)="computerDiscard()"
-  (computerDraw)="drawCard(computerCards)"
-  [playerCards]="computerCards" [cardsVisible]="false" [myTurn]="!myTurn">
-</hand-of-cards>
+<hand-of-cards (discard)="game.opponentHandOfCards = game.discardCard($event,game.pile, game.opponentHandOfCards, game.playerHandOfCards,game.cardDeck)"
+               [playerCards]="game.opponentHandOfCards"
+               [cardsVisible]="true"
+               [myTurn]="!game.myTurn">
 
+</hand-of-cards>
 
 <hr>
 
 <div class="row">
-  <div class="col-xs-2"> <deck [cards]= "currentDeck" (click)="drawCard(playerCards)"> </deck>
+  <div class="col-xs-2"> <deck [cards]= "game.cardDeck" (click)="game.drawCard(game.cardDeck,game.playerHandOfCards)"> </deck>
   </div>
-  <div class="col-xs-2"> <pile [cards]="pile"> </pile> </div>
+  <div class="col-xs-2"> <pile [cards]="game.pile"> </pile> </div>
   <div class="col-xs-6 col-xs-offset-2" style="border: 1px solid black;height: 100px"></div>
 </div>
 
@@ -20,6 +20,9 @@
 <hr>
 
 <p>Player's cards</p>
-<hand-of-cards (discard)="playerCards = discardCard($event,playerCards,computerCards)" [playerCards]="playerCards" [cardsVisible]="true" [myTurn]="myTurn">
+<hand-of-cards (discard)="game.playerHandOfCards = game.discardCard($event,game.pile, game.playerHandOfCards,game.opponentHandOfCards, game.cardDeck)"
+               [playerCards]="game.playerHandOfCards"
+               [cardsVisible]="true"
+               [myTurn]="game.myTurn">
 
 </hand-of-cards>

@@ -20,9 +20,10 @@ export class GameStateService {
     this.playerHandOfCards = [];
     this.opponentHandOfCards = [];
     for (let i = 0; i < 7; i++) {
-      this.playerHandOfCards.push(this.cardDeck.pop())
-      this.opponentHandOfCards.push(this.cardDeck.pop())
+      this.playerHandOfCards.push(this.cardDeck.pop());
+      this.opponentHandOfCards.push(this.cardDeck.pop());
     }
+    this.pile.push(this.cardDeck.pop());
   }
 
   generateCardDeck() {
@@ -102,6 +103,15 @@ export class GameStateService {
       handOfCards.push(cardDeck.pop());
     }
   }
+  //
+  //computerDiscardCard(pile, opponentHandOfCards) {
+  //  let pileTopCard = pile[pile.length - 1];
+  //  for (let i = 0; i < opponentHandOfCards.length; i++) {
+  //    if (this.isCardValid(opponentHandOfCards[i], pile)) {
+  //      this.discardCard(card,pile,handOfCards,opponentHandofCards,cardDeck)
+  //    }
+  //  }
+  //}
 
   discardCard(card, pile, handOfCards, opponentHandOfCards?, cardDeck?) {
 
