@@ -36,7 +36,6 @@ export class GameStateService {
   }
 
 
-
   isCardValid(card, pile) {
     let pileTopCard = pile[pile.length - 1];
     let isSameRank = (card.rank === pileTopCard.rank);
@@ -47,18 +46,24 @@ export class GameStateService {
     return (isSameRank || isSameSuit || isJack) && !isJackOnJack;
   }
 
-  discardCard(card,pile,handOfCards){
-    // push card to pile
-    pile.push(card);
+  discardCard(card, pile, handOfCards) {
 
-    // remove card from hand of cards
-    let resultHandOfCards = handOfCards.filter(function(cardOfHand){
-      return cardOfHand != card
-    });
+    if (this.isCardValid(card, pile)) {
+      // push card to pile
+      pile.push(card);
 
+      // remove card from hand of cards
+      let resultHandOfCards = handOfCards.filter(function (cardOfHand) {
+        return cardOfHand != card
+      });
 
+      this.myTurn = !this.myTurn;
 
-    return resultHandOfCards
+      return resultHandOfCards
+    } else {
+      return handOfCards;
+    }
+
   }
 
 }

@@ -135,6 +135,36 @@ describe('GameState Service', () => {
 
       }));
 
+    it('should check if discarded card is valid, if not do not discard',
+      inject([GameStateService], (service:GameStateService) => {
+      let sampleHandOfCards = [{rank: '9', suit: 'D'}, {rank: '8', suit: 'S'}];
+      let samplePile = [{rank: 'A', suit: 'H'}, {rank: '7', suit: 'D'}];
+      let sampleCard = sampleHandOfCards[1];
+
+      sampleHandOfCards = service.discardCard(sampleCard,samplePile,sampleHandOfCards)
+
+      expect(sampleHandOfCards).toContain({rank: '8', suit: 'S'});
+      expect(samplePile).not.toContain({rank: '8', suit: 'S'});
+
+    }));
+
+
+    it('should change the current player if a card is discarded',
+      inject([GameStateService], (service:GameStateService) => {
+        let sampleHandOfCards = [{rank: '9', suit: 'D'}, {rank: '9', suit: 'S'}];
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'D'}];
+        let sampleCard = sampleHandOfCards[1];
+
+
+        let myTurnBefore = service.myTurn;
+
+        service.discardCard(sampleCard,samplePile,sampleHandOfCards)
+
+        expect(service.myTurn).not.toBe(myTurnBefore)
+
+
+      }));
+
   });
 
 
