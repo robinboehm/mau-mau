@@ -8,6 +8,8 @@ export class GameStateService {
   myTurn;
   cardDeck;
   playerNeedsToChoose;
+  playerHandOfCards;
+  opponentHandOfCards;
 
   constructor() {
     this.pile = [];
@@ -15,6 +17,12 @@ export class GameStateService {
     this.myTurn = true;
     this.cardDeck = this.generateCardDeck();
     this.playerNeedsToChoose = false;
+    this.playerHandOfCards = [];
+    this.opponentHandOfCards = [];
+    for (let i = 0; i < 7; i++) {
+      this.playerHandOfCards.push(this.cardDeck.pop())
+      this.opponentHandOfCards.push(this.cardDeck.pop())
+    }
   }
 
   generateCardDeck() {
@@ -44,10 +52,10 @@ export class GameStateService {
     let pileTopCard = pile[pile.length - 1];
 
     let suit;
-    if(pileTopCard.wish){
+    if (pileTopCard.wish) {
       suit = pileTopCard.wish
     }
-    else{
+    else {
       suit = pileTopCard.suit;
     }
 
@@ -60,7 +68,7 @@ export class GameStateService {
   }
 
 
-  chooseSuit(newSuit, pile){
+  chooseSuit(newSuit, pile) {
     let jackCard = pile[pile.length - 1];
 
     jackCard.wish = newSuit;
@@ -69,8 +77,8 @@ export class GameStateService {
     this.playerNeedsToChoose = false;
   }
 
-  takeCardsToDraw(handOfCards, cardDeck){
-    for(;this.cardsToDraw>0;this.cardsToDraw--){
+  takeCardsToDraw(handOfCards, cardDeck) {
+    for (; this.cardsToDraw > 0; this.cardsToDraw--) {
       handOfCards.push(cardDeck.pop());
     }
   }
@@ -86,27 +94,27 @@ export class GameStateService {
         return cardOfHand != card
       });
 
-      if(card.rank == '8'){
+      if (card.rank == '8') {
         // this.myTurn = this.myTurn;
-      } else if(card.rank == '7'){
+      } else if (card.rank == '7') {
 
-        this.cardsToDraw = this.cardsToDraw+2;
+        this.cardsToDraw = this.cardsToDraw + 2;
 
         let opponentHasASeven = opponentHandOfCards.some((card)=>card.rank == '7');
 
-        if(!opponentHasASeven){
-          for(;this.cardsToDraw>0;this.cardsToDraw--){
+        if (!opponentHasASeven) {
+          for (; this.cardsToDraw > 0; this.cardsToDraw--) {
             opponentHandOfCards.push(cardDeck.pop());
           }
         }
-        else{
+        else {
           this.myTurn = !this.myTurn;
           // Auswahl
         }
 
-      } else if(card.rank == 'J'){
+      } else if (card.rank == 'J') {
         this.playerNeedsToChoose = true;
-      } else{
+      } else {
         this.myTurn = !this.myTurn;
       }
 

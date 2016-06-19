@@ -29,12 +29,19 @@ describe('GameState Service', () => {
 
     it('should start with 32 cards at cardDeck',
       inject([GameStateService], (service:GameStateService) => {
-        expect(service.cardDeck.length).toEqual(32);
+        expect(service.cardDeck.length).toEqual(18);
       }));
 
     it('should initialize playerNeedsToChoose with false',
       inject([GameStateService], (service:GameStateService) => {
         expect(service.playerNeedsToChoose).toEqual(false);
+      }));
+
+    it('should give each player 7 cards',
+      inject([GameStateService], (service:GameStateService) => {
+        expect(service.playerHandOfCards.length).toEqual(7);
+        expect(service.opponentHandOfCards.length).toEqual(7);
+
       }));
   });
 
