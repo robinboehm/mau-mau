@@ -26,6 +26,11 @@ describe('GameState Service', () => {
       inject([GameStateService], (service:GameStateService) => {
         expect(service.myTurn).toEqual(true);
       }));
+
+    it('should start with 32 cards at cardDeck',
+      inject([GameStateService], (service:GameStateService) => {
+        expect(service.cardDeck.length).toEqual(32);
+      }));
   });
 
 
@@ -128,7 +133,7 @@ describe('GameState Service', () => {
         let samplePile = [{rank: 'A', suit: 'H'}, {rank: '7', suit: 'S'}]
         let sampleCard = sampleHandOfCards[1]
 
-        sampleHandOfCards = service.discardCard(sampleCard,samplePile,sampleHandOfCards)
+        sampleHandOfCards = service.discardCard(sampleCard, samplePile, sampleHandOfCards)
 
         expect(sampleHandOfCards).not.toContain({rank: '8', suit: 'S'})
         expect(samplePile).toContain({rank: '8', suit: 'S'})
@@ -137,16 +142,16 @@ describe('GameState Service', () => {
 
     it('should check if discarded card is valid, if not do not discard',
       inject([GameStateService], (service:GameStateService) => {
-      let sampleHandOfCards = [{rank: '9', suit: 'D'}, {rank: '8', suit: 'S'}];
-      let samplePile = [{rank: 'A', suit: 'H'}, {rank: '7', suit: 'D'}];
-      let sampleCard = sampleHandOfCards[1];
+        let sampleHandOfCards = [{rank: '9', suit: 'D'}, {rank: '8', suit: 'S'}];
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '7', suit: 'D'}];
+        let sampleCard = sampleHandOfCards[1];
 
-      sampleHandOfCards = service.discardCard(sampleCard,samplePile,sampleHandOfCards)
+        sampleHandOfCards = service.discardCard(sampleCard, samplePile, sampleHandOfCards)
 
-      expect(sampleHandOfCards).toContain({rank: '8', suit: 'S'});
-      expect(samplePile).not.toContain({rank: '8', suit: 'S'});
+        expect(sampleHandOfCards).toContain({rank: '8', suit: 'S'});
+        expect(samplePile).not.toContain({rank: '8', suit: 'S'});
 
-    }));
+      }));
 
 
     it('should change the current player if a card is discarded',
@@ -158,7 +163,7 @@ describe('GameState Service', () => {
 
         let myTurnBefore = service.myTurn;
 
-        service.discardCard(sampleCard,samplePile,sampleHandOfCards)
+        service.discardCard(sampleCard, samplePile, sampleHandOfCards)
 
         expect(service.myTurn).not.toBe(myTurnBefore)
 
@@ -174,12 +179,111 @@ describe('GameState Service', () => {
 
         let myTurnBefore = service.myTurn;
 
-        service.discardCard(sampleCard,samplePile,sampleHandOfCards)
+        service.discardCard(sampleCard, samplePile, sampleHandOfCards)
 
         expect(service.myTurn).toBe(myTurnBefore)
 
 
       }));
+
+
+    describe('discard 7', () => {
+
+      it('should make opponent draw 2 cards',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: '7', suit: 'S'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let sampleCard = myHandOfCards[1];
+          let sampleCardDeck = service.generateCardDeck();
+
+
+          myHandOfCards = service.discardCard(sampleCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(1);
+          expect(opponentHandOfCards.length).toBe(3);
+          expect(samplePile.length).toBe(3);
+          expect(sampleCardDeck.length).toBe(30)
+
+
+        }));
+
+      it('should make me draw 4 cards when opponent also has a 7',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: '7', suit: 'S'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let sampleCard = myHandOfCards[1];
+          let sampleCardDeck = service.generateCardDeck();
+
+
+          myHandOfCards = service.discardCard(sampleCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(5);
+          expect(opponentHandOfCards.length).toBe(1);
+          expect(samplePile.length).toBe(4);
+          expect(sampleCardDeck.length).toBe(28)
+
+
+        }));
+
+
+      it('should make the opponent draw 6 cards when I have a second 7',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: '7', suit: 'S'},  {rank: '7', suit: 'H'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let firstSevenCard = myHandOfCards[1];
+          let secondSevenCard = myHandOfCards[2];
+          let sampleCardDeck = service.generateCardDeck();
+
+
+          myHandOfCards = service.discardCard(firstSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+
+          myHandOfCards = service.discardCard(secondSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(1);
+          expect(opponentHandOfCards.length).toBe(7);
+          expect(samplePile.length).toBe(5);
+          expect(sampleCardDeck.length).toBe(26)
+
+
+        }));
+
+
+      it('should make me draw 8 cards when opponent has a second 7',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: '7', suit: 'S'},  {rank: '7', suit: 'H'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}, {rank: '7', suit: 'C'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let firstSevenCard = myHandOfCards[1];
+          let secondSevenCard = myHandOfCards[2];
+          let sampleCardDeck = service.generateCardDeck();
+
+
+          myHandOfCards = service.discardCard(firstSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+
+          myHandOfCards = service.discardCard(secondSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(9);
+          expect(opponentHandOfCards.length).toBe(1);
+          expect(samplePile.length).toBe(6);
+          expect(sampleCardDeck.length).toBe(24)
+
+
+        }));
+      
+      
+    });
+
 
   });
 
@@ -252,7 +356,6 @@ describe('GameState Service', () => {
       }));
 
   });
-
 
 
 });

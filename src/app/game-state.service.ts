@@ -6,11 +6,13 @@ export class GameStateService {
   pile;
   cardsToDraw;
   myTurn;
+  cardDeck;
 
   constructor() {
     this.pile = [];
     this.cardsToDraw = 0;
     this.myTurn = true;
+    this.cardDeck = this.generateCardDeck();
   }
 
   generateCardDeck() {
@@ -46,7 +48,7 @@ export class GameStateService {
     return (isSameRank || isSameSuit || isJack) && !isJackOnJack;
   }
 
-  discardCard(card, pile, handOfCards) {
+  discardCard(card, pile, handOfCards, opponentHandOfCards?, cardDeck?) {
 
     if (this.isCardValid(card, pile)) {
       // push card to pile
@@ -59,8 +61,23 @@ export class GameStateService {
 
       if(card.rank == '8'){
         // this.myTurn = this.myTurn;
-      }
-      else{
+      } else if(card.rank == '7'){
+
+        this.cardsToDraw = this.cardsToDraw+2;
+
+        let opponentHasASeven = opponentHandOfCards.some((card)=>card.rank == '7');
+
+        if(!opponentHasASeven){
+          for(;this.cardsToDraw>0;this.cardsToDraw--){
+            opponentHandOfCards.push(cardDeck.pop());
+          }
+        }
+        else{
+          this.myTurn = !this.myTurn;
+          // Auswahl
+        }
+
+      } else{
         this.myTurn = !this.myTurn;
       }
 
