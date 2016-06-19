@@ -35,10 +35,31 @@ export class GameStateService {
     this.myTurn = !this.myTurn;
   }
 
+
+
   isCardValid(card, pile) {
     let pileTopCard = pile[pile.length - 1];
-    let isSameRank = (card.rank === pileTopCard.rank)
-    return (isSameRank);
+    let isSameRank = (card.rank === pileTopCard.rank);
+    let isSameSuit = (card.suit === pileTopCard.suit);
+    let isJack = (card.rank === 'J');
+    let isJackOnJack = (pileTopCard.rank === 'J') && (card.rank === 'J');
+
+    return (isSameRank || isSameSuit || isJack) && !isJackOnJack;
+  }
+
+  discardCard(card,pile,handOfCards){
+    // push card to pile
+    pile.push(card);
+
+    // remove card from hand of cards
+    let resultHandOfCards = handOfCards.filter(function(cardOfHand){
+      return cardOfHand != card
+    });
+
+
+
+    return resultHandOfCards
   }
 
 }
+
