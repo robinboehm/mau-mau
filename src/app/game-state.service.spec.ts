@@ -31,6 +31,11 @@ describe('GameState Service', () => {
       inject([GameStateService], (service:GameStateService) => {
         expect(service.cardDeck.length).toEqual(32);
       }));
+
+    it('should initialize playerNeedsToChoose with false',
+      inject([GameStateService], (service:GameStateService) => {
+        expect(service.playerNeedsToChoose).toEqual(false);
+      }));
   });
 
 
@@ -186,6 +191,31 @@ describe('GameState Service', () => {
 
       }));
 
+
+    describe('discard J', () => {
+
+      it('should make player choose the suit',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: 'J', suit: 'S'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let sampleCard = myHandOfCards[1];
+          let sampleCardDeck = service.generateCardDeck();
+
+
+          expect(service.playerNeedsToChoose).toBe(false);
+
+          myHandOfCards = service.discardCard(sampleCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(1);
+          expect(opponentHandOfCards.length).toBe(1);
+          expect(samplePile.length).toBe(3);
+          expect(sampleCardDeck.length).toBe(32)
+
+          expect(service.playerNeedsToChoose).toBe(true);
+        }));
+
+    });
 
     describe('discard 7', () => {
 

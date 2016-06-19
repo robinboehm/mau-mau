@@ -7,12 +7,14 @@ export class GameStateService {
   cardsToDraw;
   myTurn;
   cardDeck;
+  playerNeedsToChoose;
 
   constructor() {
     this.pile = [];
     this.cardsToDraw = 0;
     this.myTurn = true;
     this.cardDeck = this.generateCardDeck();
+    this.playerNeedsToChoose = false;
   }
 
   generateCardDeck() {
@@ -84,6 +86,8 @@ export class GameStateService {
           // Auswahl
         }
 
+      } else if(card.rank == 'J'){
+        this.playerNeedsToChoose = true;
       } else{
         this.myTurn = !this.myTurn;
       }
