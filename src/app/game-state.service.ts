@@ -15,7 +15,7 @@ export class GameStateService {
     this.pile = [];
     this.cardsToDraw = 0;
     this.myTurn = true;
-    this.cardDeck = this.generateCardDeck();
+    this.cardDeck = this.shuffle(this.generateCardDeck());
     this.playerNeedsToChoose = false;
     this.playerHandOfCards = [];
     this.opponentHandOfCards = [];
@@ -40,6 +40,26 @@ export class GameStateService {
       }
     }
     return cardDeck;
+  }
+
+  shuffle(arr) {
+    if (!Array.isArray(arr)) {
+      throw new TypeError('Expected an array');
+    }
+
+    var rand;
+    var tmp;
+    var len = arr.length;
+    var ret = arr.slice();
+
+    while (len) {
+      rand = Math.floor(Math.random() * len--);
+      tmp = ret[len];
+      ret[len] = ret[rand];
+      ret[rand] = tmp;
+    }
+
+    return ret;
   }
 
   drawCard(source, destination) {

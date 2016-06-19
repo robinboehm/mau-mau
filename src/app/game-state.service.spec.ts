@@ -43,6 +43,13 @@ describe('GameState Service', () => {
         expect(service.opponentHandOfCards.length).toEqual(7);
 
       }));
+
+    //it('should shuffle the card deck',
+    //  inject([GameStateService], (service:GameStateService) => {
+    //    let sortedCardDeck = service.generateCardDeck();
+    //    expect(sortedCardDeck[0]).toEqual({rank:'7',suit:'C'});
+    //  }));
+
   });
 
 
