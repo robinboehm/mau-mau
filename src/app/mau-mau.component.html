@@ -6,6 +6,7 @@
                [myTurn]="!game.myTurn">
 
 </hand-of-cards>
+<button *ngIf="game.cardsToDraw>0 && !game.myTurn" (click)="game.takeCardsToDraw(game.opponentHandOfCards, game.cardDeck)">{{game.cardsToDraw}} ziehen</button>
 
 <hr>
 
@@ -13,7 +14,12 @@
   <div class="col-xs-2"> <deck [cards]= "game.cardDeck" (click)="game.drawCard(game.cardDeck,game.playerHandOfCards)"> </deck>
   </div>
   <div class="col-xs-2"> <pile [cards]="game.pile"> </pile> </div>
-  <div class="col-xs-6 col-xs-offset-2" style="border: 1px solid black;height: 100px"></div>
+  <div class="col-xs-6 col-xs-offset-2" *ngIf="game.playerNeedsToChoose">
+    <img src="SuitClubs.png" alt="" width="100" (click)="game.chooseSuit('C',game.pile)">
+    <img src="SuitDiamond.png" alt="" width="100" (click)="game.chooseSuit('D',game.pile)">
+    <img src="SuitHeart.jpg" alt="" width="100" (click)="game.chooseSuit('H',game.pile)">
+    <img src="SuitSpades.png" alt="" width="100" (click)="game.chooseSuit('S',game.pile)">
+  </div>
 </div>
 
 
@@ -26,3 +32,4 @@
                [myTurn]="game.myTurn">
 
 </hand-of-cards>
+<button *ngIf="game.cardsToDraw>0 && game.myTurn" (click)="game.takeCardsToDraw(game.playerHandOfCards, game.cardDeck)">{{game.cardsToDraw}} ziehen</button>

@@ -102,6 +102,7 @@ export class GameStateService {
     for (; this.cardsToDraw > 0; this.cardsToDraw--) {
       handOfCards.push(cardDeck.pop());
     }
+    this.myTurn = !this.myTurn;
   }
   //
   //computerDiscardCard(pile, opponentHandOfCards) {

@@ -29,9 +29,9 @@ describe('GameState Service', () => {
         expect(service.myTurn).toEqual(true);
       }));
 
-    it('should start with 32 cards at cardDeck',
+    it('should start with 17 cards at cardDeck',
       inject([GameStateService], (service:GameStateService) => {
-        expect(service.cardDeck.length).toEqual(18);
+        expect(service.cardDeck.length).toEqual(17);
       }));
 
     it('should initialize playerNeedsToChoose with false',
@@ -413,9 +413,12 @@ describe('GameState Service', () => {
             let sampleCardDeck = service.generateCardDeck();
 
 
+            expect(service.myTurn).toBe(true);
             myHandOfCards = service.discardCard(sampleCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+            expect(service.myTurn).toBe(false);
 
             service.takeCardsToDraw(opponentHandOfCards, sampleCardDeck);
+            expect(service.myTurn).toBe(true);
 
             expect(myHandOfCards.length).toBe(1);
             expect(opponentHandOfCards.length).toBe(4);
@@ -435,14 +438,16 @@ describe('GameState Service', () => {
             let secondSevenCard = myHandOfCards[2];
             let sampleCardDeck = service.generateCardDeck();
 
-
+            expect(service.myTurn).toBe(true);
             myHandOfCards = service.discardCard(firstSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
-
+            expect(service.myTurn).toBe(false);
             opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+            expect(service.myTurn).toBe(true);
 
             // myHandOfCards = service.discardCard(secondSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
 
             service.takeCardsToDraw(myHandOfCards, sampleCardDeck);
+            expect(service.myTurn).toBe(false);
 
             expect(myHandOfCards.length).toBe(6);
             expect(opponentHandOfCards.length).toBe(1);
@@ -462,16 +467,17 @@ describe('GameState Service', () => {
             let secondSevenCard = myHandOfCards[2];
             let sampleCardDeck = service.generateCardDeck();
 
-
+            expect(service.myTurn).toBe(true);
             myHandOfCards = service.discardCard(firstSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
-
+            expect(service.myTurn).toBe(false);
             opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
-
+            expect(service.myTurn).toBe(true);
             myHandOfCards = service.discardCard(secondSevenCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
-
+            expect(service.myTurn).toBe(false);
             // opponentHandOfCards = service.discardCard(opponentHandOfCards[1], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
 
             service.takeCardsToDraw(opponentHandOfCards, sampleCardDeck);
+            expect(service.myTurn).toBe(true);
 
             expect(myHandOfCards.length).toBe(1);
             expect(opponentHandOfCards.length).toBe(8);
