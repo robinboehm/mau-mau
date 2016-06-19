@@ -42,14 +42,32 @@ export class GameStateService {
 
   isCardValid(card, pile) {
     let pileTopCard = pile[pile.length - 1];
+
+    let suit;
+    if(pileTopCard.wish){
+      suit = pileTopCard.wish
+    }
+    else{
+      suit = pileTopCard.suit;
+    }
+
     let isSameRank = (card.rank === pileTopCard.rank);
-    let isSameSuit = (card.suit === pileTopCard.suit);
+    let isSameSuit = (card.suit === suit);
     let isJack = (card.rank === 'J');
     let isJackOnJack = (pileTopCard.rank === 'J') && (card.rank === 'J');
 
     return (isSameRank || isSameSuit || isJack) && !isJackOnJack;
   }
 
+
+  chooseSuit(newSuit, pile){
+    let jackCard = pile[pile.length - 1];
+
+    jackCard.wish = newSuit;
+
+    this.myTurn = !this.myTurn;
+    this.playerNeedsToChoose = false;
+  }
 
   takeCardsToDraw(handOfCards, cardDeck){
     for(;this.cardsToDraw>0;this.cardsToDraw--){

@@ -210,9 +210,70 @@ describe('GameState Service', () => {
           expect(myHandOfCards.length).toBe(1);
           expect(opponentHandOfCards.length).toBe(1);
           expect(samplePile.length).toBe(3);
-          expect(sampleCardDeck.length).toBe(32)
+          expect(sampleCardDeck.length).toBe(32);
 
           expect(service.playerNeedsToChoose).toBe(true);
+        }));
+
+
+      it('should change the current player after choosing the suit',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: 'J', suit: 'S'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let sampleCard = myHandOfCards[1];
+          let sampleCardDeck = service.generateCardDeck();
+          let currentTurn = service.myTurn;
+
+          expect(service.playerNeedsToChoose).toBe(false);
+
+          myHandOfCards = service.discardCard(sampleCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(1);
+          expect(opponentHandOfCards.length).toBe(1);
+          expect(samplePile.length).toBe(3);
+          expect(sampleCardDeck.length).toBe(32);
+
+          expect(service.playerNeedsToChoose).toBe(true);
+
+          service.chooseSuit('D', samplePile);
+
+          expect(currentTurn).toBe(!service.myTurn);
+        }));
+
+
+      it('should allow only chosen suit to be discarded next',
+        inject([GameStateService], (service:GameStateService) => {
+          let myHandOfCards = [{rank: '9', suit: 'D'}, {rank: 'J', suit: 'S'}];
+          let opponentHandOfCards = [{rank: '10', suit: 'D'}];
+          let samplePile = [{rank: 'A', suit: 'H'}, {rank: '9', suit: 'S'}];
+          let sampleCard = myHandOfCards[1];
+          let sampleCardDeck = service.generateCardDeck();
+          let currentTurn = service.myTurn;
+
+          expect(service.playerNeedsToChoose).toBe(false);
+
+          myHandOfCards = service.discardCard(sampleCard, samplePile, myHandOfCards, opponentHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(1);
+          expect(opponentHandOfCards.length).toBe(1);
+          expect(samplePile.length).toBe(3);
+          expect(sampleCardDeck.length).toBe(32);
+
+          expect(service.playerNeedsToChoose).toBe(true);
+
+          service.chooseSuit('D', samplePile);
+
+          expect(service.playerNeedsToChoose).toBe(false);
+
+          expect(currentTurn).toBe(!service.myTurn);
+
+          opponentHandOfCards = service.discardCard(opponentHandOfCards[0], samplePile, opponentHandOfCards, myHandOfCards, sampleCardDeck);
+
+          expect(myHandOfCards.length).toBe(1);
+          expect(opponentHandOfCards.length).toBe(0);
+          expect(samplePile.length).toBe(4);
+          expect(sampleCardDeck.length).toBe(32);
         }));
 
     });
