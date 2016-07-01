@@ -10,6 +10,7 @@ export class GameStateService {
   playerNeedsToChoose;
   playerHandOfCards;
   opponentHandOfCards;
+  gameOver;
 
   constructor() {
     this.pile = [];
@@ -125,7 +126,7 @@ export class GameStateService {
   }
 
 
-  discardCard(card, pile, handOfCards, opponentHandOfCards?, cardDeck?) {
+  discardCard(card, pile, handOfCards, opponentHandOfCards, cardDeck?) {
 
     if (this.isCardValid(card, pile)) {
       // push card to pile
@@ -161,6 +162,7 @@ export class GameStateService {
       }
 
 
+      this.gameOver = this.isGameOver(pile, handOfCards, opponentHandOfCards)
       return resultHandOfCards
     } else {
       return handOfCards;
