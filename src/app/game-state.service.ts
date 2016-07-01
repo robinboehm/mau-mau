@@ -104,6 +104,7 @@ export class GameStateService {
     }
     this.myTurn = !this.myTurn;
   }
+
   //
   //computerDiscardCard(pile, opponentHandOfCards) {
   //  let pileTopCard = pile[pile.length - 1];
@@ -113,6 +114,14 @@ export class GameStateService {
   //    }
   //  }
   //}
+
+  isGameOver(handOfCards, opponentHandOfCards) {
+    return (opponentHandOfCards.length == 0 || handOfCards.length == 0)
+  }
+
+  amIWinner() {
+
+  }
 
   discardCard(card, pile, handOfCards, opponentHandOfCards?, cardDeck?) {
 
