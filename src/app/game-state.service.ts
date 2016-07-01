@@ -115,13 +115,15 @@ export class GameStateService {
   //  }
   //}
 
-  isGameOver(handOfCards, opponentHandOfCards) {
-    return (opponentHandOfCards.length == 0 || handOfCards.length == 0)
+  isGameOver(pile, handOfCards, opponentHandOfCards) {
+    let noMoreCards = handOfCards.length == 0;
+    let topCardIsSeven = pile[pile.length-1].rank === '7';
+    let opponentHasSeven = opponentHandOfCards.some(card => card.rank === '7');
+    let opponentCanDiscard = topCardIsSeven && opponentHasSeven;
+
+    return noMoreCards && !opponentCanDiscard;
   }
 
-  amIWinner() {
-
-  }
 
   discardCard(card, pile, handOfCards, opponentHandOfCards?, cardDeck?) {
 

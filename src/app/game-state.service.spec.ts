@@ -567,9 +567,10 @@ describe('GameState Service', () => {
       inject([GameStateService], (service:GameStateService) => {
         let myHandOfCards = [];
         let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}, {rank: '7', suit: 'C'}];
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '8', suit: 'D'}];
         let isGameOver;
 
-        isGameOver = service.isGameOver(myHandOfCards, opponentHandOfCards);
+        isGameOver = service.isGameOver(samplePile, myHandOfCards, opponentHandOfCards);
 
         expect(isGameOver).toEqual(true)
 
@@ -579,11 +580,41 @@ describe('GameState Service', () => {
       inject([GameStateService], (service:GameStateService) => {
         let myHandOfCards = [{rank: '9', suit: 'D'}];
         let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}, {rank: '7', suit: 'C'}];
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '8', suit: 'D'}];
+
         let isGameOver;
 
-        isGameOver = service.isGameOver(myHandOfCards, opponentHandOfCards);
+        isGameOver = service.isGameOver(samplePile, myHandOfCards, opponentHandOfCards);
 
         expect(isGameOver).toEqual(false)
+
+      }));
+
+    it('should declare game over false if top card on pile is 7 and other player still has a 7',
+      inject([GameStateService], (service:GameStateService) => {
+        let myHandOfCards = [];
+        let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '7', suit: 'D'}, {rank: '7', suit: 'C'}];
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '7', suit: 'H'}];
+
+        let isGameOver;
+
+        isGameOver = service.isGameOver(samplePile, myHandOfCards, opponentHandOfCards);
+
+        expect(isGameOver).toEqual(false)
+
+      }));
+
+    it('should declare game over true if top card on pile is 7 and other player has no 7',
+      inject([GameStateService], (service:GameStateService) => {
+        let myHandOfCards = [];
+        let opponentHandOfCards = [{rank: '10', suit: 'D'}, {rank: '8', suit: 'D'}, {rank: '9', suit: 'C'}];
+        let samplePile = [{rank: 'A', suit: 'H'}, {rank: '7', suit: 'H'}];
+
+        let isGameOver;
+
+        isGameOver = service.isGameOver(samplePile, myHandOfCards, opponentHandOfCards);
+
+        expect(isGameOver).toEqual(true)
 
       }));
 
