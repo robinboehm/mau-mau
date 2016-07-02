@@ -24,7 +24,9 @@ export class HandOfCardsComponent implements OnInit {
   }
 
   sendDiscardEvent(card){
-    this.discard.emit(card);
+    if(this.myTurn){
+      this.discard.emit(card);
+    }
   }
 
   sendComputerDiscard(){

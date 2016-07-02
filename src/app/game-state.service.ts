@@ -7,12 +7,23 @@ export class GameStateService {
   cardsToDraw;
   myTurn;
   cardDeck;
+  playerNeedsToChoose;
+  playerHandOfCards;
+  opponentHandOfCards;
 
   constructor() {
     this.pile = [];
     this.cardsToDraw = 0;
     this.myTurn = true;
-    this.cardDeck = this.generateCardDeck();
+    this.cardDeck = this.shuffle(this.generateCardDeck());
+    this.playerNeedsToChoose = false;
+    this.playerHandOfCards = [];
+    this.opponentHandOfCards = [];
+    for (let i = 0; i < 7; i++) {
+      this.playerHandOfCards.push(this.cardDeck.pop());
+      this.opponentHandOfCards.push(this.cardDeck.pop());
+    }
+    this.pile.push(this.cardDeck.pop());
   }
 
   generateCardDeck() {
@@ -32,6 +43,26 @@ export class GameStateService {
     return cardDeck;
   }
 
+  shuffle(arr) {
+    if (!Array.isArray(arr)) {
+      throw new TypeError('Expected an array');
+    }
+
+    var rand;
+    var tmp;
+    var len = arr.length;
+    var ret = arr.slice();
+
+    while (len) {
+      rand = Math.floor(Math.random() * len--);
+      tmp = ret[len];
+      ret[len] = ret[rand];
+      ret[rand] = tmp;
+    }
+
+    return ret;
+  }
+
   drawCard(source, destination) {
     destination.push(source.pop());
     this.myTurn = !this.myTurn;
@@ -40,8 +71,17 @@ export class GameStateService {
 
   isCardValid(card, pile) {
     let pileTopCard = pile[pile.length - 1];
+
+    let suit;
+    if (pileTopCard.wish) {
+      suit = pileTopCard.wish
+    }
+    else {
+      suit = pileTopCard.suit;
+    }
+
     let isSameRank = (card.rank === pileTopCard.rank);
-    let isSameSuit = (card.suit === pileTopCard.suit);
+    let isSameSuit = (card.suit === suit);
     let isJack = (card.rank === 'J');
     let isJackOnJack = (pileTopCard.rank === 'J') && (card.rank === 'J');
 
@@ -49,11 +89,41 @@ export class GameStateService {
   }
 
 
-  takeCardsToDraw(handOfCards, cardDeck){
-    for(;this.cardsToDraw>0;this.cardsToDraw--){
+  chooseSuit(newSuit, pile) {
+    let jackCard = pile[pile.length - 1];
+
+    jackCard.wish = newSuit;
+
+    this.myTurn = !this.myTurn;
+    this.playerNeedsToChoose = false;
+  }
+
+  takeCardsToDraw(handOfCards, cardDeck) {
+    for (; this.cardsToDraw > 0; this.cardsToDraw--) {
       handOfCards.push(cardDeck.pop());
     }
+    this.myTurn = !this.myTurn;
   }
+
+  //
+  //computerDiscardCard(pile, opponentHandOfCards) {
+  //  let pileTopCard = pile[pile.length - 1];
+  //  for (let i = 0; i < opponentHandOfCards.length; i++) {
+  //    if (this.isCardValid(opponentHandOfCards[i], pile)) {
+  //      this.discardCard(card,pile,handOfCards,opponentHandofCards,cardDeck)
+  //    }
+  //  }
+  //}
+
+  isGameOver(pile, handOfCards, opponentHandOfCards) {
+    let noMoreCards = handOfCards.length == 0;
+    let topCardIsSeven = pile[pile.length-1].rank === '7';
+    let opponentHasSeven = opponentHandOfCards.some(card => card.rank === '7');
+    let opponentCanDiscard = topCardIsSeven && opponentHasSeven;
+
+    return noMoreCards && !opponentCanDiscard;
+  }
+
 
   discardCard(card, pile, handOfCards, opponentHandOfCards?, cardDeck?) {
 
@@ -66,25 +136,27 @@ export class GameStateService {
         return cardOfHand != card
       });
 
-      if(card.rank == '8'){
+      if (card.rank == '8') {
         // this.myTurn = this.myTurn;
-      } else if(card.rank == '7'){
+      } else if (card.rank == '7') {
 
-        this.cardsToDraw = this.cardsToDraw+2;
+        this.cardsToDraw = this.cardsToDraw + 2;
 
         let opponentHasASeven = opponentHandOfCards.some((card)=>card.rank == '7');
 
-        if(!opponentHasASeven){
-          for(;this.cardsToDraw>0;this.cardsToDraw--){
+        if (!opponentHasASeven) {
+          for (; this.cardsToDraw > 0; this.cardsToDraw--) {
             opponentHandOfCards.push(cardDeck.pop());
           }
         }
-        else{
+        else {
           this.myTurn = !this.myTurn;
           // Auswahl
         }
 
-      } else{
+      } else if (card.rank == 'J') {
+        this.playerNeedsToChoose = true;
+      } else {
         this.myTurn = !this.myTurn;
       }
 
