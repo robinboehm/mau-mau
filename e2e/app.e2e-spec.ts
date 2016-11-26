@@ -9,6 +9,6 @@ describe('mau-mau App', function() {
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('mau-mau works!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });

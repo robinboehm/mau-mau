@@ -2,11 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import {CardComponent} from "../card/card.component";
 
 @Component({
-  moduleId: module.id,
   selector: 'pile',
   templateUrl: 'pile.component.html',
-  styleUrls: ['pile.component.css'],
-  directives: [CardComponent]
+  styleUrls: ['pile.component.css']
 })
 export class PileComponent implements OnInit {
 

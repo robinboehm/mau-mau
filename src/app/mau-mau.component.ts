@@ -8,12 +8,10 @@ import {GameStateService} from "./game-state.service";
 
 
 @Component({
-  moduleId: module.id,
   selector: 'mau-mau-app',
   templateUrl: 'mau-mau.component.html',
   styleUrls: ['mau-mau.component.css'],
-  providers: [GameStateService],
-  directives: [CardComponent, HandOfCardsComponent, DeckComponent, PileComponent]
+  providers: [GameStateService]
 })
 export class MauMauAppComponent {
 

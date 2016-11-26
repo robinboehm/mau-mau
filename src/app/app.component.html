@@ -1,0 +1,35 @@
+
+<p>Computer's cards</p>
+<hand-of-cards (discard)="game.opponentHandOfCards = game.discardCard($event,game.pile, game.opponentHandOfCards, game.playerHandOfCards,game.cardDeck)"
+               [playerCards]="game.opponentHandOfCards"
+               [cardsVisible]="true"
+               [myTurn]="!game.myTurn">
+
+</hand-of-cards>
+<button *ngIf="game.cardsToDraw>0 && !game.myTurn" (click)="game.takeCardsToDraw(game.opponentHandOfCards, game.cardDeck)">{{game.cardsToDraw}} ziehen</button>
+
+<hr>
+
+<div class="row">
+  <div class="col-xs-2"> <deck [cards]= "game.cardDeck" (click)="game.drawCard(game.cardDeck,game.playerHandOfCards)"> </deck>
+  </div>
+  <div class="col-xs-2"> <pile [cards]="game.pile"> </pile> </div>
+  <div class="col-xs-6 col-xs-offset-2" *ngIf="game.playerNeedsToChoose">
+    <img src="./assets/SuitClubs.png" alt="" width="100" (click)="game.chooseSuit('C',game.pile)">
+    <img src="./assets/SuitDiamond.png" alt="" width="100" (click)="game.chooseSuit('D',game.pile)">
+    <img src="./assets/SuitHeart.jpg" alt="" width="100" (click)="game.chooseSuit('H',game.pile)">
+    <img src="./assets/SuitSpades.png" alt="" width="100" (click)="game.chooseSuit('S',game.pile)">
+  </div>
+</div>
+
+
+<hr>
+
+<p>Player's cards</p>
+<hand-of-cards (discard)="game.playerHandOfCards = game.discardCard($event,game.pile, game.playerHandOfCards,game.opponentHandOfCards, game.cardDeck)"
+               [playerCards]="game.playerHandOfCards"
+               [cardsVisible]="true"
+               [myTurn]="game.myTurn">
+
+</hand-of-cards>
+<button *ngIf="game.cardsToDraw>0 && game.myTurn" (click)="game.takeCardsToDraw(game.playerHandOfCards, game.cardDeck)">{{game.cardsToDraw}} ziehen</button>
